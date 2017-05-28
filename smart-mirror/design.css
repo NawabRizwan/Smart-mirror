@@ -1,0 +1,106 @@
+ body { background: black !important; } /*!important forces the browser to overwrite the default style applied by Bootstrap */
+
+
+ #map {
+                width: 670px;
+                height: 750px;
+}
+#sec{
+	background: black;
+}
+
+#item {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: white;
+	background: black;
+	font-size: 20px;
+
+}
+#tabsid {
+	display: none;
+}
+#feed {
+  width: 700px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  background: black;
+}
+#feeds.panel {
+	background: black;
+}
+
+#parent {
+  display: flex;
+}
+#narrow {		/*time and date div*/
+  width: 300px;
+  padding-right: 15px; 
+}
+#wide {			/*weather details div*/
+  flex: 0.2;
+
+}
+#center {		/*image div*/
+	flex: 0.8;
+	padding-top: 5px;
+}
+
+#wrapper {
+    width: 500px;
+    border: 1px solid black;
+    overflow: hidden; /* adding this to contain floated children */
+}
+#first {
+    width: 300px;
+    float:left; /* left float compulsory */
+}
+#second {
+    
+    float: right; /*right float */
+    background: black;
+}
+#panel{
+	background: black;
+}
+#outPopUp {
+  position: absolute;
+  width: 300px;
+  height: 150px;
+  z-index: 15;
+  top: 33%;
+  left: 45%;
+  margin: -100px 0 0 -150px;
+  
+}
+#outPopUpMap {
+  position: absolute;
+  width: 300px;
+  height: 150px;
+  z-index: 15;
+  top: 33%;
+  left: 24%;
+  margin: -100px 0 0 -150px; 
+}
+#commandsDiv {
+  align-self: center;
+  background: black;
+  color: white;
+  font-size: 28px;
+  font-family: verdana;
+  transition: all linear 0.5s;
+  
+  width: 80%;
+  position: relative;
+  top: 0;
+  left: 20;
+
+}
+#commandsDiv.ng-hide {
+
+  height: 0;
+  width: 0;
+  background-color: transparent;
+  top:-200px;
+  left: 20px;
+}

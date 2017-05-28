@@ -1,0 +1,208 @@
+<html>
+  <head>
+
+    <link rel="stylesheet" type="text/css" href="design.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+    <script src="data.js"></script>
+    <script type="text/javascript" src="annyang.js"></script>
+
+    <script>	//Annyang script
+    if (annyang) 
+    {
+      var commands = 
+      {
+       'what can i say' : function() { var x = document.getElementById('showCommandsCb').checked;if(!x){document.getElementById('showCommandsCb').click()};},
+       	'okay' : function() { var x = document.getElementById('showCommandsCb').checked;if(x){document.getElementById('showCommandsCb').click()};},
+        'home' : function() { document.getElementById('homeid').click(); },
+        'news' : function() { document.getElementById('newsid').click();},
+        'reminders' : function(){document.getElementById('reminderid').click();},
+        'map' : function() { document.getElementById('mapid').click();},
+        'calendar' : function() { document.getElementById('calenderid').click();},
+        'cam':function() { document.getElementById('camid').click();},
+        'refresh' : function() {window.location.reload(true);},
+        'play' : function() {var audio = document.getElementById('audio');if (audio.paused) {audio.play();}},
+        'pause' : function() {var audio = document.getElementById('audio');audio.pause();}
+      };
+
+      // Add our commands to annyang
+      annyang.addCommands(commands);
+
+      // Start listening.
+      annyang.start({ autoRestart: true, continuous: false });
+    }
+    </script>
+
+    <!-- Google maps script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdy9bEouLhsN3GpR6A800tVX1YcuqQgpI&callback=initMap" async defer></script>		
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>	<!-- Google maps script -->
+    <script type="text/javascript" src="https://rss2json.com/gfapi.js"></script>	<!-- rss script -->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
+
+    <script type="text/javascript">		/*Google maps script*/      
+      // When the window has finished loading create our google map below
+      google.maps.event.addDomListener(window, 'load', init);      
+      function init() {
+                    
+        var mapOptions = {
+          // How zoomed in you want the map to start at (always required)
+          zoom: 15,
+          
+          // The latitude and longitude to center the map (always required)
+          center: new google.maps.LatLng(19.8800, 75.3570), //Aurangabad
+
+          // How you would like to style the map. 
+          // This is where you would paste any style found on Snazzy Maps.
+          styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#FF0000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#FFFFFF"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#FFFFFF"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]};
+
+          // HTML DOM element that will contain the map 
+          //  div with id="map" seen below in the <body>
+          var mapElement = document.getElementById('map');
+        
+          // Create the Google Map using our element and options defined above
+          var map = new google.maps.Map(mapElement, mapOptions);
+
+          // marker
+          var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(19.8800, 75.3570),
+          map: map,
+          title: 'Snazzy!'
+        });
+      }
+    </script>
+           
+    <script type="text/javascript">		//News feed script
+      google.load("feeds", "1");
+      function initialize() 
+      {
+        var feed = new google.feeds.Feed("http://rss.cnn.com/rss/cnn_topstories.rss");
+        var ul = document.createElement('ul');
+        ul.setAttribute('id','proList');
+          
+        feed.load(function(result) 
+        {
+          if (!result.error) 
+          {
+            var container = document.getElementById("feed");
+            for (var i = 0; i < 12; i++) 
+            {
+              var entry = result.feed.entries[i];
+              var li = document.createElement('li');
+              li.appendChild(document.createTextNode(entry.title));
+              li.setAttribute('id','item');
+              ul.appendChild(li);
+              container.appendChild(ul);
+            }
+        	}
+        });
+      }
+      google.setOnLoadCallback(initialize);
+    </script>
+
+  </head>
+
+  <body  bgcolor="black"  ng-app="myApp">
+  	<div>	
+      <div id="parent"  ng-controller="TimeCtrl">
+    		<div id="wide" ng-controller="weatherCtrl"> <!-- weather details -->
+    			<p><font color="white" face="verdana">
+    				<font size="70">{{temp}}&deg</font><br>
+    				  {{city}}.<br>
+    				  {{description}}<br>
+    				  Min: {{mintemp}}&deg
+    				  Max: {{maxtemp}}&deg<br>
+    				</font>
+          </p>
+    		</div> 
+    		<div ng-controller="weatherCtrl" id="center">	<!-- Image div -->
+    			<div ><img  width="100" height="100" ng-src="{{picsrc}}">
+          </div>
+    		</div>
+
+    		<div id="narrow"><font color="white">	<!-- time and date div -->
+    			<p align="right"><b><font size="40" face="verdana">{{ clock | date:'hh:mm a'}}</font></b><br>
+      			<font size="15" face="verdana" >{{ clock | date:'EEEE'}}</font><br>
+      			<font size="5" face="verdana">{{ clock | date:'MMM d,yyyy'}}</font>
+      		</p></font>
+      	</div>
+  		</div>
+  	</div>		
+      		
+  	<section id="sec"  ng-controller="PanelController as panel">     <!-- Rest of the page -->
+  		<ul class="nav nav-tabs" id="tabsid">           <!-- Navigation tabs -->
+    			<li ng-class="{ active:panel.isSelected(4)}"><a href ng-click="panel.selectTab(4)" id="homeid"><a id="homeid" href="#home">Home</a></li>
+    			<li ng-class="{ active:panel.isSelected(2)}"><a href ng-click="panel.selectTab(2)" id="calenderid"><a id="calenderid" href="#calender">Calender & Events</a></li>
+    			<li ng-class="{ active:panel.isSelected(1)}"><a href ng-click="panel.selectTab(1)" id="mapid"><a id="mapid" href="#maps">Maps</a></li>
+    			<li ng-class="{ active:panel.isSelected(3)}"><a href ng-click="panel.selectTab(3)" id="reminderid"><a id="reminderid" href="#reminders">Reminders</a></li>
+    			<li ng-class="{ active:panel.isSelected(5)}"><a href ng-click="panel.selectTab(5)" id="newsid"><a id="newsid" href="#news">News</a></li>
+    			<li ng-class="{ active:panel.isSelected(6)}"><a href ng-click="panel.selectTab(6)" id="camid"><a id="camid" href="#cam">News</a></li>
+  		</ul>
+
+      <!-- div for displaying Google calenders -->
+  		<div class="panel" id="outPopUp"  ng-show="panel.isSelected(2)">    
+  			<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=300&amp;wkst=2&amp;bgcolor=%23000000&amp;src=rnawab91%40gmail.com&amp;color=%231B887A&amp;src=%23contacts%40group.v.calendar.google.com&amp;color=%2329527A&amp;src=en.indian%23holiday%40group.v.calendar.google.com&amp;color=%2329527A&amp;ctz=Asia%2FCalcutta" style="border-width:0" width="400" height="500" frameborder="0" scrolling="no">   
+        </iframe>
+  		</div>
+
+      <!-- div for displaying map -->
+  		<div class="panel" id="outPopUpMap"  ng-show="panel.isSelected(1)" >  
+  			<div id="map">   
+        </div>
+  		</div>
+
+      <!-- Div for displaying reminders(Not implemented) -->
+  		<div class="panel" id="outPopUp"  ng-show="panel.isSelected(3)"> 
+  			Reminders
+  		</div>
+
+      <!-- div to select home tab to show commands that can be used -->
+  		<div ng-show="panel.isSelected(4)">	 
+  			<p align="center"><font color="white" size="5px">Say "<b>What can I say</b>" to see commands that you can use.</font></p>
+  			<br><br><br>
+  			<div  class="panel" id="commandsDiv"  ng-show = "myCheck"> 	<!-- Commands list -->
+  				<p align="center">
+  				  <table style="color: white">
+    					<tr ><td><b>Home:</b>&nbsp</td><td><font size="4">&nbsp Loads the home page</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>Map:</b>&nbsp</td><td> <font size="4">&nbsp Shows map of Aurangabad</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>news:</b>&nbsp</td><td> <font size="4">&nbsp Shows news headlines</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>calendar:</b>&nbsp</td><td> <font size="4">&nbsp Shows calender and events</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>reminders:</b>&nbsp</td><td> <font size="4">&nbsp Show reminders</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>cam:</b>&nbsp</td><td> <font size="4">&nbsp Show live streaming</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>Play:</b>&nbsp</td><td> <font size="4">&nbsp Play music</font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr ><td><b>pause:</b>&nbsp</td><td> <font size="4">&nbsp Pause music </font></td></tr><tr><td>&nbsp</td></tr>
+    					<tr><td><b>refresh:</b>&nbsp</td><td> <font size="4">&nbsp Refresh the screen</font></td></tr><tr><td>&nbsp</td></tr>				
+  				  </table>
+  				  <font color="white" size="5px" >Say "<b>Okay</b>" to hide commands.</font>
+  				</p>
+  			</div>
+
+        <!-- Checkbox is checked when "what can i say" command is used hidden always -->
+  			<input type="checkbox"  id="showCommandsCb" ng-model="myCheck" hidden="true" style="display: none;">
+
+  			<!-- footer -->
+  			<p style=" position: absolute; bottom: 25; left: 0; width: 100%; text-align: center;"><font color="white" size="42"> Smart mirrors;<br> Inspired by smart people! </font></p>
+  		</div>
+  		
+      <!-- div to show news feed -->
+  		<div class="panel" id="feeds"  ng-show="panel.isSelected(5)"> 
+  			<div id="feed"></div>
+  		</div>
+
+      <!-- div to show live streaming -->
+      <!-- live straming is shown through an android phone using "IP webcam" application available for free on playstore -->
+  		<div class="panel" id="cam"  ng-show="panel.isSelected(6)"> 
+        <div id="cam">	<!-- ip address is taken from the application.The android device and smart mirror needs to be connected in the same network -->
+          <iframe src="http://192.168.0.4:8080/browserfs.html" style="border-width:0" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+  	</section> 
+
+    <!-- music player. can be initialized from anywhere -->
+  	<audio controls="controls" id="audio" style="display: none;">
+  		<source src="/smart-mirror/audio/songs.mp3" type="audio/mpeg"  />
+  			Your browser does not support the audio element.
+  	</audio>
+  </body>
+</html>
