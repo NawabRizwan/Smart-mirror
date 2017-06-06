@@ -20,9 +20,9 @@ TimeCtrl();
 
 app.controller('weatherCtrl',function($scope,$http){		//Weather Component
 	var vm = $scope;
-	var apiKey = "83a33bfe870abc07f0fa990d1f3b2407";	//use your api keys here	
-	var apiKey2 = "25bd7bc4f9fa9155e6198f13dded6d3c";	//alternate api key
-	/*alternate api key = 25bd7bc4f9fa9155e6198f13dded6d3c*/
+	var apiKey = "";	//use your api keys here	
+	var apiKey2 = "";	//alternate api key
+	/*alternate api key = */
 	//var openWeatherUrl ="http://api.openweathermap.org/data/2.5/forecast/city?id=1278149&APPID="+ apiKey1;
 	var openWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?id=1278149&APPID="+apiKey;
 
